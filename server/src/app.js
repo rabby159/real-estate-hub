@@ -1,6 +1,8 @@
 const express = require("express");
+
 const propertyRoutes = require("./routes/propertyRoutes");
 const authRoutes = require("./routes/authRoutes");
+const { protect } = require("./middleware/authMiddleware");
 
 const app = express();
 
@@ -13,6 +15,14 @@ app.get("/api/health", (req, res) => {
   res.json({
     success: true,
     message: "Real Estate Hub API is running",
+  });
+});
+
+app.get("/api/auth/me", protect, (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Authentication successful",
+    user: req.user,
   });
 });
 
