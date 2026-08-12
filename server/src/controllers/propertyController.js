@@ -1,4 +1,5 @@
 const Property = require("../models/Property");
+const mongoose = require("mongoose");
 
 // Get all properties
 const getProperties = async (req, res) => {
@@ -242,10 +243,69 @@ const deleteProperty = async (req, res) => {
   }
 };
 
+const compareProperties = async (req, res) => {
+  try {
+    const { ids } = req.query;
+
+    if (!ids) {
+      return res.status(400).json({
+        success: false,
+        message: "Property IDs are required",
+      });
+    }
+
+    const propertyIds = ids.split(",").filter(Boolean);
+
+    // Maximum 3 properties
+    if (propertyIds.length < 2 || propertyIds.length > 3) {
+      return res.status(400).json({
+        success: false,
+        message: "You can compare between 2 and 3 properties",
+      });
+    }
+
+    // Validate MongoDB IDs
+    const invalidId = propertyIds.some(
+      (id) => !mongoose.Types.ObjectId.isValid(id)
+    );
+
+    if (invalidId) {
+      return res.status(400).json({
+        success: false,
+        message: "One or more property IDs are invalid",
+      });
+    }
+
+    const properties = await Property.find({
+      _id: { $in: propertyIds },
+    });
+
+    if (properties.length !== propertyIds.length) {
+      return res.status(404).json({
+        success: false,
+        message: "One or more properties were not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      count: properties.length,
+      data: properties,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to compare properties",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getProperties,
   getPropertyById,
   createProperty,
   updateProperty,
   deleteProperty,
+  compareProperties,
 };

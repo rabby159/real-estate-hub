@@ -1,4 +1,5 @@
 const express = require("express");
+router.get("/compare", compareProperties);
 
 const {
   getProperties,
@@ -6,6 +7,7 @@ const {
   createProperty,
   updateProperty,
   deleteProperty,
+  compareProperties,
 } = require("../controllers/propertyController");
 
 const {
@@ -18,6 +20,7 @@ const router = express.Router();
 // Public routes
 router.get("/", getProperties);
 router.get("/:id", getPropertyById);
+router.get("/compare", compareProperties);
 
 // Admin-only routes
 router.post(
