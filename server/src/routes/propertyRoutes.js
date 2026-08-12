@@ -1,6 +1,4 @@
 const express = require("express");
-const router = express.Router();
-router.get("/compare", compareProperties);
 
 const {
   getProperties,
@@ -17,6 +15,7 @@ const {
 } = require("../middleware/authMiddleware");
 
 const router = express.Router();
+router.get("/compare", compareProperties);
 
 // Public routes
 router.get("/", getProperties);
