@@ -1,26 +1,65 @@
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import MainLayout from "./layouts/MainLayout";
+
+import Home from "./pages/Home";
+import Properties from "./pages/Properties";
+import PropertyDetails from "./pages/PropertyDetails";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Favorites from "./pages/Favorites";
+import Compare from "./pages/Compare";
+import MyInquiries from "./pages/MyInquiries";
 
 function App() {
-
   return (
-    <>
-       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-10 rounded-2xl shadow-lg text-center">
-        <h1 className="text-4xl font-bold text-gray-900">
-          Real Estate Hub
-        </h1>
+    <BrowserRouter>
+      <Routes>
 
-        <p className="mt-4 text-gray-600">
-          Tailwind CSS is working!
-        </p>
+        <Route element={<MainLayout />}>
 
-        <button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-          Get Started
-        </button>
-      </div>
-    </div>
-    </>
-  )
+          <Route path="/" element={<Home />} />
+
+          <Route
+            path="/properties"
+            element={<Properties />}
+          />
+
+          <Route
+            path="/properties/:id"
+            element={<PropertyDetails />}
+          />
+
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+
+          <Route
+            path="/register"
+            element={<Register />}
+          />
+
+          <Route
+            path="/favorites"
+            element={<Favorites />}
+          />
+
+          <Route
+            path="/compare"
+            element={<Compare />}
+          />
+
+          <Route
+            path="/inquiries"
+            element={<MyInquiries />}
+          />
+
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
