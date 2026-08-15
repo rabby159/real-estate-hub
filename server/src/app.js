@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 const propertyRoutes = require("./routes/propertyRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -7,6 +8,12 @@ const favoriteRoutes = require("./routes/favoriteRoutes");
 const inquiryRoutes = require("./routes/inquiryRoutes");
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 app.use(express.json());
 
