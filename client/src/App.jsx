@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import MainLayout from "./layouts/MainLayout";
 
@@ -16,48 +17,45 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        <Route element={<MainLayout />}>
+  <Route element={<MainLayout />}>
 
-          <Route path="/" element={<Home />} />
+    {/* Public */}
+    <Route path="/" element={<Home />} />
+    <Route path="/properties" element={<Properties />} />
+    <Route
+      path="/properties/:id"
+      element={<PropertyDetails />}
+    />
+    <Route path="/login" element={<Login />} />
+    <Route path="/register" element={<Register />} />
 
-          <Route
-            path="/properties"
-            element={<Properties />}
-          />
+    {/* Customer */}
+    <Route
+      element={
+        <ProtectedRoute
+          allowedRoles={["customer"]}
+        />
+      }
+    >
+      <Route
+        path="/favorites"
+        element={<Favorites />}
+      />
 
-          <Route
-            path="/properties/:id"
-            element={<PropertyDetails />}
-          />
+      <Route
+        path="/compare"
+        element={<Compare />}
+      />
 
-          <Route
-            path="/login"
-            element={<Login />}
-          />
+      <Route
+        path="/inquiries"
+        element={<MyInquiries />}
+      />
+    </Route>
 
-          <Route
-            path="/register"
-            element={<Register />}
-          />
+  </Route>
 
-          <Route
-            path="/favorites"
-            element={<Favorites />}
-          />
-
-          <Route
-            path="/compare"
-            element={<Compare />}
-          />
-
-          <Route
-            path="/inquiries"
-            element={<MyInquiries />}
-          />
-
-        </Route>
-
-      </Routes>
+</Routes>
     </BrowserRouter>
   );
 }
