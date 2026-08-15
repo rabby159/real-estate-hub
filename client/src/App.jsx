@@ -48,7 +48,7 @@ function App() {
       />
 
       <Route
-        path="/inquiries"
+        path="/my-inquiries"
         element={<MyInquiries />}
       />
     </Route>

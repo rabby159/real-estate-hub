@@ -69,11 +69,11 @@ function Navbar() {
               </NavLink>
 
               <NavLink
-                to="/inquiries"
-                className={navLinkClass}
-              >
-                Inquiries
-              </NavLink>
+  to="/my-inquiries"
+  className={navLinkClass}
+>
+  Inquiries
+</NavLink>
             </>
           )}
 
