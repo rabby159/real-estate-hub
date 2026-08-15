@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 function PropertyDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [favoriteMessage, setFavoriteMessage] = useState("");
+
+  const [compareMessage, setCompareMessage] = useState("");
+  const [compareLoading, setCompareLoading] = useState(false);
 
   const [inquiryForm, setInquiryForm] = useState({
   name: "",
@@ -141,6 +145,73 @@ function PropertyDetails() {
     );
   } finally {
     setFavoriteLoading(false);
+  }
+};
+
+const handleCompare = () => {
+  if (!user) {
+    setCompareMessage(
+      "Please login as a customer to compare properties."
+    );
+    return;
+  }
+
+  if (user.role !== "customer") {
+    setCompareMessage(
+      "Only customer accounts can compare properties."
+    );
+    return;
+  }
+
+  try {
+    setCompareLoading(true);
+    setCompareMessage("");
+
+    // Get existing compare properties
+    const storedCompare =
+      JSON.parse(localStorage.getItem("compareProperties")) || [];
+
+    // Check if already added
+    if (storedCompare.includes(id)) {
+      setCompareMessage(
+        "This property is already in your comparison list."
+      );
+      return;
+    }
+
+    // Maximum 3 properties
+    if (storedCompare.length >= 3) {
+      setCompareMessage(
+        "You can compare a maximum of 3 properties."
+      );
+      return;
+    }
+
+    // Add property
+    const updatedCompare = [...storedCompare, id];
+
+    localStorage.setItem(
+      "compareProperties",
+      JSON.stringify(updatedCompare)
+    );
+
+    setCompareMessage(
+      "Property added to comparison."
+    );
+
+    // Go to compare page
+    navigate("/compare");
+  } catch (error) {
+    console.error(
+      "Failed to add property to compare:",
+      error
+    );
+
+    setCompareMessage(
+      "Unable to add property to comparison."
+    );
+  } finally {
+    setCompareLoading(false);
   }
 };
 
@@ -629,13 +700,25 @@ const handleInquirySubmit = async (event) => {
 
               {/* Compare */}
 
-              <button
-                type="button"
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
-              >
-                ⚖️
-                <span>Add to Compare</span>
-              </button>
+             <button
+  type="button"
+  onClick={handleCompare}
+  disabled={compareLoading}
+  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
+>
+  ⚖️
+  <span>
+    {compareLoading
+      ? "Adding..."
+      : "Add to Compare"}
+  </span>
+</button>
+
+{compareMessage && (
+  <p className="mt-3 text-center text-sm text-gray-500">
+    {compareMessage}
+  </p>
+)}
 
 
               {/* Inquiry */}

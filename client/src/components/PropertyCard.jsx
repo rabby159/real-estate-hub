@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const COMPARE_KEY = "compareProperties";
 
 function PropertyCard({ property }) {
+  const navigate = useNavigate();
+
   const location = property.location || {};
 
   const [isCompared, setIsCompared] = useState(() => {
@@ -16,11 +18,29 @@ function PropertyCard({ property }) {
 
       const ids = JSON.parse(stored);
 
-      return ids.includes(property._id);
+      return Array.isArray(ids) && ids.includes(property._id);
     } catch {
       return false;
     }
   });
+
+  const [compareCount, setCompareCount] = useState(() => {
+    try {
+      const stored = localStorage.getItem(COMPARE_KEY);
+
+      if (!stored) {
+        return 0;
+      }
+
+      const ids = JSON.parse(stored);
+
+      return Array.isArray(ids) ? ids.length : 0;
+    } catch {
+      return 0;
+    }
+  });
+
+  const [message, setMessage] = useState("");
 
   const handleCompare = () => {
     try {
@@ -32,7 +52,7 @@ function PropertyCard({ property }) {
         ids = [];
       }
 
-      // Remove from comparison
+      // Remove from compare
       if (ids.includes(property._id)) {
         ids = ids.filter(
           (id) => id !== property._id
@@ -44,19 +64,30 @@ function PropertyCard({ property }) {
         );
 
         setIsCompared(false);
+        setCompareCount(ids.length);
+        setMessage("Removed from comparison");
+
+        setTimeout(() => {
+          setMessage("");
+        }, 2000);
 
         return;
       }
 
-      // Maximum 3 properties
+      // Maximum 3
       if (ids.length >= 3) {
-        alert(
-          "You can compare a maximum of 3 properties."
+        setMessage(
+          "You can compare maximum 3 properties."
         );
 
+        setTimeout(() => {
+          setMessage("");
+        }, 2500);
+
         return;
       }
 
+      // Add property
       ids.push(property._id);
 
       localStorage.setItem(
@@ -65,16 +96,30 @@ function PropertyCard({ property }) {
       );
 
       setIsCompared(true);
+      setCompareCount(ids.length);
+      setMessage("Added to comparison");
+
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
     } catch (error) {
       console.error(
-        "Failed to update comparison:",
+        "Compare error:",
         error
+      );
+
+      setMessage(
+        "Unable to add property to comparison."
       );
     }
   };
 
+  const goToCompare = () => {
+    navigate("/compare");
+  };
+
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
 
       {/* Image */}
       <div className="relative h-56 overflow-hidden bg-gray-100">
@@ -98,22 +143,29 @@ function PropertyCard({ property }) {
           </span>
         )}
 
-        {/* Compare button */}
+        {/* Compare Button */}
         <button
           type="button"
           onClick={handleCompare}
-          className={`absolute right-4 top-4 rounded-full px-3 py-2 text-xs font-semibold shadow transition ${
+          className={`absolute right-4 top-4 rounded-full px-4 py-2 text-xs font-semibold shadow transition ${
             isCompared
               ? "bg-blue-600 text-white"
               : "bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600"
           }`}
         >
           {isCompared
-            ? "✓ Compared"
-            : "Compare"}
+            ? "✓ Added"
+            : "Add to Compare"}
         </button>
 
       </div>
+
+      {/* Success message */}
+      {message && (
+        <div className="absolute left-1/2 top-4 z-10 -translate-x-1/2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-lg">
+          {message}
+        </div>
+      )}
 
       {/* Content */}
       <div className="p-5">
@@ -180,6 +232,17 @@ function PropertyCard({ property }) {
           </Link>
 
         </div>
+
+        {/* Compare Now */}
+        {compareCount >= 2 && (
+          <button
+            type="button"
+            onClick={goToCompare}
+            className="mt-4 w-full rounded-lg border border-blue-600 px-4 py-2.5 text-sm font-semibold text-blue-600 transition hover:bg-blue-50"
+          >
+            Compare {compareCount} Properties
+          </button>
+        )}
 
       </div>
     </div>
