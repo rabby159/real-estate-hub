@@ -11,6 +11,9 @@ import Register from "./pages/Register";
 import Favorites from "./pages/Favorites";
 import Compare from "./pages/Compare";
 import MyInquiries from "./pages/MyInquiries";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminProperties from "./pages/AdminProperties";
+import AdminInquiries from "./pages/AdminInquiries";
 
 function App() {
   return (
@@ -28,6 +31,18 @@ function App() {
     />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
+    <Route
+        path="/admin"
+        element={<AdminDashboard />}
+      />
+      <Route
+        path="/admin/properties"
+        element={<AdminProperties />}
+      />
+      <Route
+  path="/admin/inquiries"
+  element={<AdminInquiries />}
+/>
 
     {/* Customer */}
     <Route
