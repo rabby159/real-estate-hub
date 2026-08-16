@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
 import api from "../services/api";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AdminProperties() {
+    const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -82,11 +84,14 @@ function AdminProperties() {
             </div>
 
             <button
-              type="button"
-              className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-            >
-              + Add Property
-            </button>
+  type="button"
+  onClick={() =>
+    navigate("/admin/properties/add")
+  }
+  className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+>
+  + Add Property
+</button>
 
           </div>
 
@@ -310,11 +315,14 @@ function AdminProperties() {
                             <div className="flex justify-end gap-2">
 
                               <button
-                                type="button"
-                                className="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-100"
-                              >
-                                Edit
-                              </button>
+  type="button"
+  onClick={() =>
+    window.location.href = `/admin/properties/edit/${property._id}`
+  }
+  className="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-100"
+>
+  Edit
+</button>
 
                               <button
                                 type="button"

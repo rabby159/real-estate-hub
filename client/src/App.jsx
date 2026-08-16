@@ -14,6 +14,8 @@ import MyInquiries from "./pages/MyInquiries";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminProperties from "./pages/AdminProperties";
 import AdminInquiries from "./pages/AdminInquiries";
+import AdminAddProperty from "./pages/AdminAddProperty";
+import AdminEditProperty from "./pages/AdminEditProperty";
 
 function App() {
   return (
@@ -42,6 +44,14 @@ function App() {
       <Route
   path="/admin/inquiries"
   element={<AdminInquiries />}
+/>
+<Route
+  path="/admin/properties/add"
+  element={<AdminAddProperty />}
+/>
+<Route
+  path="/admin/properties/edit/:id"
+  element={<AdminEditProperty />}
 />
 
     {/* Customer */}
