@@ -12,9 +12,7 @@ function FilterSidebar({ filters, setFilters, onApply, onReset }) {
     <aside className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-gray-900">
-            Filters
-          </h2>
+          <h2 className="text-lg font-bold text-gray-900">Filters</h2>
 
           <p className="mt-1 text-sm text-gray-500">
             Find properties that match your needs
@@ -31,7 +29,6 @@ function FilterSidebar({ filters, setFilters, onApply, onReset }) {
       </div>
 
       <div className="space-y-5">
-
         {/* City */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -82,7 +79,7 @@ function FilterSidebar({ filters, setFilters, onApply, onReset }) {
             <option value="Villa">Villa</option>
             <option value="Land">Land</option>
             <option value="Commercial">Commercial</option>
-        </select>
+          </select>
         </div>
 
         {/* Purpose */}
@@ -110,7 +107,6 @@ function FilterSidebar({ filters, setFilters, onApply, onReset }) {
           </label>
 
           <div className="grid grid-cols-2 gap-2">
-
             <input
               type="number"
               name="minPrice"
@@ -128,7 +124,6 @@ function FilterSidebar({ filters, setFilters, onApply, onReset }) {
               placeholder="Max"
               className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             />
-
           </div>
         </div>
 
@@ -157,11 +152,11 @@ function FilterSidebar({ filters, setFilters, onApply, onReset }) {
         <button
           type="button"
           onClick={onApply}
-          className="w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700"
+          className="group w-full relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 px-8 py-3 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/40 active:scale-95"
         >
-          Apply Filters
+          <span className="relative z-10">Apply Filters</span>
+          <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
         </button>
-
       </div>
     </aside>
   );

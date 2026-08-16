@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 function PropertyDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
@@ -85,6 +85,7 @@ function PropertyDetails() {
 
   useEffect(() => {
   if (user) {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setInquiryForm((previous) => ({
       ...previous,
       name: user.name || "",

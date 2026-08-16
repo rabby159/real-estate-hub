@@ -31,6 +31,7 @@ function PropertyCard({ property }) {
       const compareKey = getCompareKey();
 
       if (!compareKey) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsCompared(false);
         setCompareCount(0);
         return;
@@ -55,10 +56,7 @@ function PropertyCard({ property }) {
       setIsCompared(ids.includes(property._id));
       setCompareCount(ids.length);
     } catch (error) {
-      console.error(
-        "Failed to load compare data:",
-        error
-      );
+      console.error("Failed to load compare data:", error);
 
       setIsCompared(false);
       setCompareCount(0);
@@ -94,14 +92,9 @@ function PropertyCard({ property }) {
 
       // Remove from compare
       if (ids.includes(property._id)) {
-        ids = ids.filter(
-          (id) => id !== property._id
-        );
+        ids = ids.filter((id) => id !== property._id);
 
-        localStorage.setItem(
-          compareKey,
-          JSON.stringify(ids)
-        );
+        localStorage.setItem(compareKey, JSON.stringify(ids));
 
         setIsCompared(false);
         setCompareCount(ids.length);
@@ -116,9 +109,7 @@ function PropertyCard({ property }) {
 
       // Maximum 3 properties
       if (ids.length >= 3) {
-        setMessage(
-          "You can compare maximum 3 properties."
-        );
+        setMessage("You can compare maximum 3 properties.");
 
         setTimeout(() => {
           setMessage("");
@@ -130,10 +121,7 @@ function PropertyCard({ property }) {
       // Add property
       ids.push(property._id);
 
-      localStorage.setItem(
-        compareKey,
-        JSON.stringify(ids)
-      );
+      localStorage.setItem(compareKey, JSON.stringify(ids));
 
       setIsCompared(true);
       setCompareCount(ids.length);
@@ -142,16 +130,10 @@ function PropertyCard({ property }) {
       setTimeout(() => {
         setMessage("");
       }, 2000);
-
     } catch (error) {
-      console.error(
-        "Compare error:",
-        error
-      );
+      console.error("Compare error:", error);
 
-      setMessage(
-        "Unable to add property to comparison."
-      );
+      setMessage("Unable to add property to comparison.");
 
       setTimeout(() => {
         setMessage("");
@@ -165,11 +147,9 @@ function PropertyCard({ property }) {
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-
       {/* Image */}
 
       <div className="relative h-56 overflow-hidden bg-gray-100">
-
         {property.images?.length > 0 ? (
           <img
             src={property.images[0]}
@@ -182,7 +162,6 @@ function PropertyCard({ property }) {
           </div>
         )}
 
-
         {/* Purpose */}
 
         {property.purpose && (
@@ -190,7 +169,6 @@ function PropertyCard({ property }) {
             {property.purpose}
           </span>
         )}
-
 
         {/* Compare Button */}
 
@@ -203,13 +181,9 @@ function PropertyCard({ property }) {
               : "bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600"
           }`}
         >
-          {isCompared
-            ? "✓ Added"
-            : "Add to Compare"}
+          {isCompared ? "✓ Added" : "Add to Compare"}
         </button>
-
       </div>
-
 
       {/* Message */}
 
@@ -219,13 +193,10 @@ function PropertyCard({ property }) {
         </div>
       )}
 
-
       {/* Content */}
 
       <div className="p-5">
-
         <div className="mb-2">
-
           <p className="text-sm text-gray-500">
             {property.propertyType || "Property"}
           </p>
@@ -233,66 +204,46 @@ function PropertyCard({ property }) {
           <h3 className="mt-1 line-clamp-1 text-lg font-bold text-gray-900">
             {property.title}
           </h3>
-
         </div>
-
 
         {/* Location */}
 
         <p className="mb-4 line-clamp-1 text-sm text-gray-500">
-          {location.area &&
-            `${location.area}, `}
+          {location.area && `${location.area}, `}
           {location.city}
         </p>
-
 
         {/* Property details */}
 
         <div className="mb-5 flex flex-wrap gap-4 border-y border-gray-100 py-3 text-sm text-gray-600">
-
           {property.bedrooms !== undefined && (
-            <span>
-              🛏 {property.bedrooms} Beds
-            </span>
+            <span>🛏 {property.bedrooms} Beds</span>
           )}
 
           {property.bathrooms !== undefined && (
-            <span>
-              🛁 {property.bathrooms} Baths
-            </span>
+            <span>🛁 {property.bathrooms} Baths</span>
           )}
 
-          {property.area !== undefined && (
-            <span>
-              📐 {property.area} sqft
-            </span>
-          )}
-
+          {property.area !== undefined && <span>📐 {property.area} sqft</span>}
         </div>
-
 
         {/* Price + Details */}
 
         <div className="flex items-center justify-between">
-
           <div>
             <p className="text-xl font-bold text-blue-600">
-              ৳
-              {Number(
-                property.price || 0
-              ).toLocaleString()}
+              ৳{Number(property.price || 0).toLocaleString()}
             </p>
           </div>
 
           <Link
             to={`/properties/${property._id}`}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+            className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 px-8 py-3 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/40 active:scale-95"
           >
-            View Details
+            <span className="relative z-10">View Details</span>
+            <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
           </Link>
-
         </div>
-
 
         {/* Compare Now */}
 
@@ -305,9 +256,7 @@ function PropertyCard({ property }) {
             Compare {compareCount} Properties
           </button>
         )}
-
       </div>
-
     </div>
   );
 }

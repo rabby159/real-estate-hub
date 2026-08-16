@@ -34,10 +34,7 @@ function Compare() {
         return;
       }
 
-      const storedCompare =
-        JSON.parse(
-          localStorage.getItem(compareKey)
-        ) || [];
+      const storedCompare = JSON.parse(localStorage.getItem(compareKey)) || [];
 
       if (storedCompare.length < 2) {
         setProperties([]);
@@ -46,27 +43,20 @@ function Compare() {
 
       const ids = storedCompare.join(",");
 
-      const response = await api.get(
-        `/properties/compare?ids=${ids}`
-      );
+      const response = await api.get(`/properties/compare?ids=${ids}`);
 
       setProperties(response.data.data || []);
     } catch (error) {
-      console.error(
-        "Failed to fetch compare properties:",
-        error
-      );
+      console.error("Failed to fetch compare properties:", error);
 
-      setError(
-        error.response?.data?.message ||
-          "Unable to load comparison."
-      );
+      setError(error.response?.data?.message || "Unable to load comparison.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCompareProperties();
   }, [user]);
 
@@ -77,19 +67,11 @@ function Compare() {
       return;
     }
 
-    const storedCompare =
-      JSON.parse(
-        localStorage.getItem(compareKey)
-      ) || [];
+    const storedCompare = JSON.parse(localStorage.getItem(compareKey)) || [];
 
-    const updatedCompare = storedCompare.filter(
-      (id) => id !== propertyId
-    );
+    const updatedCompare = storedCompare.filter((id) => id !== propertyId);
 
-    localStorage.setItem(
-      compareKey,
-      JSON.stringify(updatedCompare)
-    );
+    localStorage.setItem(compareKey, JSON.stringify(updatedCompare));
 
     fetchCompareProperties();
   };
@@ -121,12 +103,10 @@ function Compare() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-
       {/* Header */}
 
       <section className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-10 sm:px-6 lg:px-8">
-
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
               Property Comparison
@@ -149,13 +129,10 @@ function Compare() {
               Clear All
             </button>
           )}
-
         </div>
       </section>
 
-
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-
         {/* Error */}
 
         {error && (
@@ -164,46 +141,38 @@ function Compare() {
           </div>
         )}
 
-
         {/* Less than 2 properties */}
 
         {!error && properties.length < 2 && (
           <div className="rounded-2xl bg-white p-12 text-center shadow-sm">
-
-            <div className="text-6xl">
-              ⚖️
-            </div>
+            <div className="text-6xl">⚖️</div>
 
             <h2 className="mt-5 text-2xl font-bold text-gray-900">
               Add More Properties
             </h2>
 
-            <p className="mx-auto mt-2 max-w-md text-gray-500">
-              Select at least 2 properties to compare them.
-              You can compare up to 3 properties.
+            <p className="mx-auto mt-2 max-w-md text-gray-500 mb-5">
+              Select at least 2 properties to compare them. You can compare up
+              to 3 properties.
             </p>
 
             <Link
               to="/properties"
-              className="mt-6 inline-block rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 px-8 py-3 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/40 active:scale-95"
             >
-              Explore Properties
+              <span className="relative z-10">Explore Properties</span>
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
             </Link>
-
           </div>
         )}
-
 
         {/* Comparison */}
 
         {!error && properties.length >= 2 && (
           <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
-
             <table className="min-w-full border-collapse">
-
               <thead>
                 <tr>
-
                   <th className="w-48 border-b border-r border-gray-200 bg-gray-50 p-5 text-left text-sm font-semibold text-gray-600">
                     Property
                   </th>
@@ -213,7 +182,6 @@ function Compare() {
                       key={property._id}
                       className="min-w-[280px] border-b border-gray-200 p-5 text-left align-top"
                     >
-
                       {property.images?.[0] ? (
                         <img
                           src={property.images[0]}
@@ -231,28 +199,21 @@ function Compare() {
                       </h2>
 
                       <p className="mt-1 text-sm text-gray-500">
-                        {property.location?.area},{" "}
-                        {property.location?.city}
+                        {property.location?.area}, {property.location?.city}
                       </p>
 
                       <button
-                        onClick={() =>
-                          removeFromCompare(property._id)
-                        }
+                        onClick={() => removeFromCompare(property._id)}
                         className="mt-3 text-sm font-semibold text-red-600 hover:text-red-700"
                       >
                         Remove
                       </button>
-
                     </th>
                   ))}
-
                 </tr>
               </thead>
 
-
               <tbody>
-
                 {/* Price */}
 
                 <tr>
@@ -265,14 +226,10 @@ function Compare() {
                       key={property._id}
                       className="border-b border-gray-200 p-5 text-xl font-bold text-blue-600"
                     >
-                      ৳
-                      {Number(
-                        property.price || 0
-                      ).toLocaleString()}
+                      ৳{Number(property.price || 0).toLocaleString()}
                     </td>
                   ))}
                 </tr>
-
 
                 {/* Property Type */}
 
@@ -291,7 +248,6 @@ function Compare() {
                   ))}
                 </tr>
 
-
                 {/* Purpose */}
 
                 <tr>
@@ -308,7 +264,6 @@ function Compare() {
                     </td>
                   ))}
                 </tr>
-
 
                 {/* Bedrooms */}
 
@@ -327,7 +282,6 @@ function Compare() {
                   ))}
                 </tr>
 
-
                 {/* Bathrooms */}
 
                 <tr>
@@ -345,7 +299,6 @@ function Compare() {
                   ))}
                 </tr>
 
-
                 {/* Area */}
 
                 <tr>
@@ -354,24 +307,15 @@ function Compare() {
                   </td>
 
                   {properties.map((property) => (
-                    <td
-                      key={property._id}
-                      className="p-5 text-gray-700"
-                    >
-                      {property.area
-                        ? `${property.area} sqft`
-                        : "—"}
+                    <td key={property._id} className="p-5 text-gray-700">
+                      {property.area ? `${property.area} sqft` : "—"}
                     </td>
                   ))}
                 </tr>
-
               </tbody>
-
             </table>
-
           </div>
         )}
-
       </main>
     </div>
   );
