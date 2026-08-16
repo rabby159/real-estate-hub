@@ -1,12 +1,18 @@
+import logo from "../assets/logo.png";
+
 function Footer() {
   return (
     <footer className="bg-gray-100">
       {/* Footer Main */}
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <div className=" px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-4">
           {/* Brand */}
           <div>
-            <h2 className="text-xl font-bold text-slate-900">🏠 EstateHub</h2>
+            <img
+              className="h-20 w-auto object-contain"
+              src={logo}
+              alt="EstateHub"
+            />
 
             <p className="mt-4 max-w-xs text-sm leading-6 text-gray-600">
               The leading real estate platform for the Bangladesh market,
@@ -110,7 +116,7 @@ function Footer() {
       <div className="border-t border-gray-300">
         <div className="mx-auto max-w-7xl px-4 py-5 text-center sm:px-6 lg:px-8">
           <p className="text-xs font-medium text-gray-600">
-            © 2024 EstateHub. Built for trust.
+            © 2026 RealStateHub. Built for trust.
           </p>
         </div>
       </div>
