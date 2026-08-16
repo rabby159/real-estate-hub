@@ -1,50 +1,90 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const COMPARE_KEY = "compareProperties";
+import { useAuth } from "../context/AuthContext";
 
 function PropertyCard({ property }) {
   const navigate = useNavigate();
 
+  const { user } = useAuth();
+
   const location = property.location || {};
 
-  const [isCompared, setIsCompared] = useState(() => {
-    try {
-      const stored = localStorage.getItem(COMPARE_KEY);
-
-      if (!stored) {
-        return false;
-      }
-
-      const ids = JSON.parse(stored);
-
-      return Array.isArray(ids) && ids.includes(property._id);
-    } catch {
-      return false;
+  // Create a unique localStorage key for each logged-in user
+  const getCompareKey = () => {
+    if (!user) {
+      return null;
     }
-  });
 
-  const [compareCount, setCompareCount] = useState(() => {
-    try {
-      const stored = localStorage.getItem(COMPARE_KEY);
+    const userId = user._id || user.id || user.email;
 
-      if (!stored) {
-        return 0;
-      }
+    return `compareProperties_${userId}`;
+  };
 
-      const ids = JSON.parse(stored);
-
-      return Array.isArray(ids) ? ids.length : 0;
-    } catch {
-      return 0;
-    }
-  });
-
+  const [isCompared, setIsCompared] = useState(false);
+  const [compareCount, setCompareCount] = useState(0);
   const [message, setMessage] = useState("");
+
+  // Load compare state whenever user changes
+  useEffect(() => {
+    try {
+      const compareKey = getCompareKey();
+
+      if (!compareKey) {
+        setIsCompared(false);
+        setCompareCount(0);
+        return;
+      }
+
+      const stored = localStorage.getItem(compareKey);
+
+      if (!stored) {
+        setIsCompared(false);
+        setCompareCount(0);
+        return;
+      }
+
+      const ids = JSON.parse(stored);
+
+      if (!Array.isArray(ids)) {
+        setIsCompared(false);
+        setCompareCount(0);
+        return;
+      }
+
+      setIsCompared(ids.includes(property._id));
+      setCompareCount(ids.length);
+    } catch (error) {
+      console.error(
+        "Failed to load compare data:",
+        error
+      );
+
+      setIsCompared(false);
+      setCompareCount(0);
+    }
+  }, [user, property._id]);
 
   const handleCompare = () => {
     try {
-      const stored = localStorage.getItem(COMPARE_KEY);
+      // User must be logged in
+      if (!user) {
+        setMessage("Please login to compare properties.");
+
+        setTimeout(() => {
+          setMessage("");
+        }, 2500);
+
+        return;
+      }
+
+      const compareKey = getCompareKey();
+
+      if (!compareKey) {
+        return;
+      }
+
+      const stored = localStorage.getItem(compareKey);
 
       let ids = stored ? JSON.parse(stored) : [];
 
@@ -59,7 +99,7 @@ function PropertyCard({ property }) {
         );
 
         localStorage.setItem(
-          COMPARE_KEY,
+          compareKey,
           JSON.stringify(ids)
         );
 
@@ -74,7 +114,7 @@ function PropertyCard({ property }) {
         return;
       }
 
-      // Maximum 3
+      // Maximum 3 properties
       if (ids.length >= 3) {
         setMessage(
           "You can compare maximum 3 properties."
@@ -91,7 +131,7 @@ function PropertyCard({ property }) {
       ids.push(property._id);
 
       localStorage.setItem(
-        COMPARE_KEY,
+        compareKey,
         JSON.stringify(ids)
       );
 
@@ -102,6 +142,7 @@ function PropertyCard({ property }) {
       setTimeout(() => {
         setMessage("");
       }, 2000);
+
     } catch (error) {
       console.error(
         "Compare error:",
@@ -111,6 +152,10 @@ function PropertyCard({ property }) {
       setMessage(
         "Unable to add property to comparison."
       );
+
+      setTimeout(() => {
+        setMessage("");
+      }, 2500);
     }
   };
 
@@ -122,6 +167,7 @@ function PropertyCard({ property }) {
     <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
 
       {/* Image */}
+
       <div className="relative h-56 overflow-hidden bg-gray-100">
 
         {property.images?.length > 0 ? (
@@ -136,14 +182,18 @@ function PropertyCard({ property }) {
           </div>
         )}
 
+
         {/* Purpose */}
+
         {property.purpose && (
           <span className="absolute left-4 top-4 rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-800 shadow">
             {property.purpose}
           </span>
         )}
 
+
         {/* Compare Button */}
+
         <button
           type="button"
           onClick={handleCompare}
@@ -160,14 +210,18 @@ function PropertyCard({ property }) {
 
       </div>
 
-      {/* Success message */}
+
+      {/* Message */}
+
       {message && (
         <div className="absolute left-1/2 top-4 z-10 -translate-x-1/2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-lg">
           {message}
         </div>
       )}
 
+
       {/* Content */}
+
       <div className="p-5">
 
         <div className="mb-2">
@@ -182,14 +236,18 @@ function PropertyCard({ property }) {
 
         </div>
 
+
         {/* Location */}
+
         <p className="mb-4 line-clamp-1 text-sm text-gray-500">
           {location.area &&
             `${location.area}, `}
           {location.city}
         </p>
 
+
         {/* Property details */}
+
         <div className="mb-5 flex flex-wrap gap-4 border-y border-gray-100 py-3 text-sm text-gray-600">
 
           {property.bedrooms !== undefined && (
@@ -212,7 +270,9 @@ function PropertyCard({ property }) {
 
         </div>
 
+
         {/* Price + Details */}
+
         <div className="flex items-center justify-between">
 
           <div>
@@ -233,7 +293,9 @@ function PropertyCard({ property }) {
 
         </div>
 
+
         {/* Compare Now */}
+
         {compareCount >= 2 && (
           <button
             type="button"
@@ -245,6 +307,7 @@ function PropertyCard({ property }) {
         )}
 
       </div>
+
     </div>
   );
 }

@@ -2,20 +2,41 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 function Compare() {
+  const { user } = useAuth();
+
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // Create a unique compare key for each user
+  const getCompareKey = () => {
+    if (!user) {
+      return null;
+    }
+
+    const userId = user._id || user.id || user.email;
+
+    return `compareProperties_${userId}`;
+  };
 
   const fetchCompareProperties = async () => {
     try {
       setLoading(true);
       setError("");
 
+      const compareKey = getCompareKey();
+
+      if (!compareKey) {
+        setProperties([]);
+        return;
+      }
+
       const storedCompare =
         JSON.parse(
-          localStorage.getItem("compareProperties")
+          localStorage.getItem(compareKey)
         ) || [];
 
       if (storedCompare.length < 2) {
@@ -47,12 +68,18 @@ function Compare() {
 
   useEffect(() => {
     fetchCompareProperties();
-  }, []);
+  }, [user]);
 
   const removeFromCompare = (propertyId) => {
+    const compareKey = getCompareKey();
+
+    if (!compareKey) {
+      return;
+    }
+
     const storedCompare =
       JSON.parse(
-        localStorage.getItem("compareProperties")
+        localStorage.getItem(compareKey)
       ) || [];
 
     const updatedCompare = storedCompare.filter(
@@ -60,7 +87,7 @@ function Compare() {
     );
 
     localStorage.setItem(
-      "compareProperties",
+      compareKey,
       JSON.stringify(updatedCompare)
     );
 
@@ -68,7 +95,14 @@ function Compare() {
   };
 
   const clearCompare = () => {
-    localStorage.removeItem("compareProperties");
+    const compareKey = getCompareKey();
+
+    if (!compareKey) {
+      return;
+    }
+
+    localStorage.removeItem(compareKey);
+
     setProperties([]);
   };
 
@@ -87,10 +121,12 @@ function Compare() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+
       {/* Header */}
 
       <section className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-10 sm:px-6 lg:px-8">
+
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
               Property Comparison
@@ -113,8 +149,10 @@ function Compare() {
               Clear All
             </button>
           )}
+
         </div>
       </section>
+
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
@@ -125,6 +163,7 @@ function Compare() {
             {error}
           </div>
         )}
+
 
         {/* Less than 2 properties */}
 
@@ -154,6 +193,7 @@ function Compare() {
           </div>
         )}
 
+
         {/* Comparison */}
 
         {!error && properties.length >= 2 && (
@@ -163,6 +203,7 @@ function Compare() {
 
               <thead>
                 <tr>
+
                   <th className="w-48 border-b border-r border-gray-200 bg-gray-50 p-5 text-left text-sm font-semibold text-gray-600">
                     Property
                   </th>
@@ -196,9 +237,7 @@ function Compare() {
 
                       <button
                         onClick={() =>
-                          removeFromCompare(
-                            property._id
-                          )
+                          removeFromCompare(property._id)
                         }
                         className="mt-3 text-sm font-semibold text-red-600 hover:text-red-700"
                       >
@@ -207,8 +246,10 @@ function Compare() {
 
                     </th>
                   ))}
+
                 </tr>
               </thead>
+
 
               <tbody>
 
@@ -232,6 +273,7 @@ function Compare() {
                   ))}
                 </tr>
 
+
                 {/* Property Type */}
 
                 <tr>
@@ -248,6 +290,7 @@ function Compare() {
                     </td>
                   ))}
                 </tr>
+
 
                 {/* Purpose */}
 
@@ -266,6 +309,7 @@ function Compare() {
                   ))}
                 </tr>
 
+
                 {/* Bedrooms */}
 
                 <tr>
@@ -283,6 +327,7 @@ function Compare() {
                   ))}
                 </tr>
 
+
                 {/* Bathrooms */}
 
                 <tr>
@@ -299,6 +344,7 @@ function Compare() {
                     </td>
                   ))}
                 </tr>
+
 
                 {/* Area */}
 
