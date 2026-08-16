@@ -22,7 +22,7 @@ function Home() {
         console.error("Failed to load properties:", error);
 
         setError(
-          "Unable to load properties right now. Please try again later."
+          "Unable to load properties right now. Please try again later.",
         );
       } finally {
         setLoading(false);
@@ -34,14 +34,11 @@ function Home() {
 
   return (
     <div className="bg-white">
-
       {/* ================= HERO ================= */}
       <section className="relative overflow-hidden bg-gray-900">
-
         <div className="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-900/90 to-blue-900/70" />
 
         <div className="relative mx-auto flex min-h-[560px] max-w-7xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6 lg:px-8">
-
           <span className="mb-5 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur">
             Find a place you'll love
           </span>
@@ -51,23 +48,19 @@ function Home() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-7 text-gray-300 sm:text-lg">
-            Explore properties, compare your options, save your favorites,
-            and connect with property owners easily.
+            Explore properties, compare your options, save your favorites, and
+            connect with property owners easily.
           </p>
 
           <div className="mt-10 w-full">
             <SearchBar />
           </div>
-
         </div>
       </section>
 
-
       {/* ================= FEATURED PROPERTIES ================= */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-
         <div className="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-
           <div>
             <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-600">
               Explore
@@ -82,9 +75,7 @@ function Home() {
               Hub.
             </p>
           </div>
-
         </div>
-
 
         {/* Loading */}
         {loading && (
@@ -98,7 +89,6 @@ function Home() {
           </div>
         )}
 
-
         {/* Error */}
         {!loading && error && (
           <div className="rounded-xl border border-red-100 bg-red-50 p-6 text-center text-red-600">
@@ -106,19 +96,14 @@ function Home() {
           </div>
         )}
 
-
         {/* Properties */}
         {!loading && !error && properties.length > 0 && (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {properties.map((property) => (
-              <PropertyCard
-                key={property._id}
-                property={property}
-              />
+              <PropertyCard key={property._id} property={property} />
             ))}
           </div>
         )}
-
 
         {/* No properties */}
         {!loading && !error && properties.length === 0 && (
@@ -132,17 +117,12 @@ function Home() {
             </p>
           </div>
         )}
-
       </section>
-
 
       {/* ================= WHY CHOOSE US ================= */}
       <section className="bg-gray-50">
-
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-
           <div className="mx-auto max-w-2xl text-center">
-
             <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
               Why Real Estate Hub?
             </p>
@@ -150,15 +130,11 @@ function Home() {
             <h2 className="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl">
               Everything you need to find your next property
             </h2>
-
           </div>
 
-
           <div className="mt-12 grid gap-8 md:grid-cols-3">
-
             {/* Explore */}
             <div className="rounded-2xl bg-white p-8 text-center shadow-sm">
-
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 text-2xl">
                 🔎
               </div>
@@ -168,16 +144,13 @@ function Home() {
               </h3>
 
               <p className="mt-3 leading-6 text-gray-500">
-                Browse property listings and quickly find properties that
-                match your needs.
+                Browse property listings and quickly find properties that match
+                your needs.
               </p>
-
             </div>
-
 
             {/* Compare */}
             <div className="rounded-2xl bg-white p-8 text-center shadow-sm">
-
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 text-2xl">
                 ⚖️
               </div>
@@ -190,13 +163,10 @@ function Home() {
                 Compare multiple properties side by side and make better
                 decisions.
               </p>
-
             </div>
-
 
             {/* Manage */}
             <div className="rounded-2xl bg-white p-8 text-center shadow-sm">
-
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 text-2xl">
                 ❤️
               </div>
@@ -206,17 +176,36 @@ function Home() {
               </h3>
 
               <p className="mt-3 leading-6 text-gray-500">
-                Save your favorite properties and send inquiries whenever
-                you're ready.
+                Save your favorite properties and send inquiries whenever you're
+                ready.
               </p>
-
             </div>
-
           </div>
 
+          {/* ================= CTA ================= */}
+          <section className="bg-slate-950">
+            <div className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
+              <h2 className="text-3xl font-bold text-white sm:text-4xl">
+                Find Your Next Property Today
+              </h2>
+
+              <p className="mx-auto mt-4 max-w-2xl text-gray-300">
+                Join thousands of satisfied users who have found their dream
+                home or ideal investment through EstateHub.
+              </p>
+
+              <button
+                onClick={() => {
+                  window.location.href = "/properties";
+                }}
+                className="mt-8 rounded-lg bg-white px-8 py-3.5 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-gray-100"
+              >
+                Explore Properties
+              </button>
+            </div>
+          </section>
         </div>
       </section>
-
     </div>
   );
 }

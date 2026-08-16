@@ -70,15 +70,9 @@ function AdminAddProperty() {
 
       navigate("/admin/properties");
     } catch (error) {
-      console.error(
-        "Failed to create property:",
-        error
-      );
+      console.error("Failed to create property:", error);
 
-      setError(
-        error.response?.data?.message ||
-          "Failed to create property."
-      );
+      setError(error.response?.data?.message || "Failed to create property.");
     } finally {
       setLoading(false);
     }
@@ -86,12 +80,10 @@ function AdminAddProperty() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-
       {/* Header */}
 
       <section className="border-b border-gray-200 bg-white">
         <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-
           <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
             Administration
           </p>
@@ -100,38 +92,28 @@ function AdminAddProperty() {
             Add Property
           </h1>
 
-          <p className="mt-2 text-gray-500">
-            Create a new property listing.
-          </p>
-
+          <p className="mt-2 text-gray-500">Create a new property listing.</p>
         </div>
       </section>
-
 
       {/* Form */}
 
       <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-
         <form
           onSubmit={handleSubmit}
           className="rounded-2xl bg-white p-6 shadow-sm sm:p-8"
         >
-
           {error && (
             <div className="mb-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
           )}
 
-
           {/* Basic Information */}
 
-          <h2 className="text-xl font-bold text-gray-900">
-            Basic Information
-          </h2>
+          <h2 className="text-xl font-bold text-gray-900">Basic Information</h2>
 
           <div className="mt-5 space-y-5">
-
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 Property Title
@@ -147,7 +129,6 @@ function AdminAddProperty() {
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
             </div>
-
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -165,9 +146,7 @@ function AdminAddProperty() {
               />
             </div>
 
-
             <div className="grid gap-5 sm:grid-cols-2">
-
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                   Price
@@ -185,7 +164,6 @@ function AdminAddProperty() {
                 />
               </div>
 
-
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                   Property Type
@@ -197,30 +175,18 @@ function AdminAddProperty() {
                   onChange={handleChange}
                   className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
                 >
-                  <option value="Apartment">
-                    Apartment
-                  </option>
+                  <option value="Apartment">Apartment</option>
 
-                  <option value="House">
-                    House
-                  </option>
+                  <option value="House">House</option>
 
-                  <option value="Villa">
-                    Villa
-                  </option>
+                  <option value="Villa">Villa</option>
 
-                  <option value="Land">
-                    Land
-                  </option>
+                  <option value="Land">Land</option>
 
-                  <option value="Commercial">
-                    Commercial
-                  </option>
+                  <option value="Commercial">Commercial</option>
                 </select>
               </div>
-
             </div>
-
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -233,18 +199,12 @@ function AdminAddProperty() {
                 onChange={handleChange}
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
               >
-                <option value="Sale">
-  Sale
-</option>
+                <option value="Sale">Sale</option>
 
-<option value="Rent">
-  Rent
-</option>
+                <option value="Rent">Rent</option>
               </select>
             </div>
-
           </div>
-
 
           {/* Property Details */}
 
@@ -253,7 +213,6 @@ function AdminAddProperty() {
           </h2>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-3">
-
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 Bedrooms
@@ -269,7 +228,6 @@ function AdminAddProperty() {
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
               />
             </div>
-
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -287,7 +245,6 @@ function AdminAddProperty() {
               />
             </div>
 
-
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 Area (sqft)
@@ -303,20 +260,14 @@ function AdminAddProperty() {
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
               />
             </div>
-
           </div>
-
 
           {/* Location */}
 
-          <h2 className="mt-10 text-xl font-bold text-gray-900">
-            Location
-          </h2>
+          <h2 className="mt-10 text-xl font-bold text-gray-900">Location</h2>
 
           <div className="mt-5 space-y-5">
-
             <div className="grid gap-5 sm:grid-cols-2">
-
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                   City
@@ -333,7 +284,6 @@ function AdminAddProperty() {
                 />
               </div>
 
-
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                   Area
@@ -349,9 +299,7 @@ function AdminAddProperty() {
                   className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
                 />
               </div>
-
             </div>
-
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -359,27 +307,22 @@ function AdminAddProperty() {
               </label>
 
               <input
-  type="text"
-  name="address"
-  value={form.address}
-  onChange={handleChange}
-  required
-  placeholder="House 12, Road 5"
-  className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-/>
+                type="text"
+                name="address"
+                value={form.address}
+                onChange={handleChange}
+                required
+                placeholder="House 12, Road 5"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+              />
             </div>
-
           </div>
-
 
           {/* Images */}
 
-          <h2 className="mt-10 text-xl font-bold text-gray-900">
-            Images
-          </h2>
+          <h2 className="mt-10 text-xl font-bold text-gray-900">Images</h2>
 
           <div className="mt-5">
-
             <label className="mb-1.5 block text-sm font-medium text-gray-700">
               Image URLs
             </label>
@@ -396,9 +339,7 @@ function AdminAddProperty() {
             <p className="mt-2 text-xs text-gray-500">
               Add multiple image URLs separated by commas.
             </p>
-
           </div>
-
 
           {/* Status */}
 
@@ -407,69 +348,31 @@ function AdminAddProperty() {
           </h2>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-2">
-
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 Status
               </label>
 
               <select
-  name="propertyType"
-  value={form.propertyType}
-  onChange={handleChange}
-  className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
->
-  <option value="Apartment">
-    Apartment
-  </option>
-
-  <option value="House">
-    House
-  </option>
-
-  <option value="Villa">
-    Villa
-  </option>
-
-  <option value="Land">
-    Land
-  </option>
-
-  <option value="Commercial">
-    Commercial
-  </option>
-</select>
-            </div>
-
-
-            <label className="flex items-center gap-3 rounded-lg border border-gray-200 px-4 py-3">
-
-              <input
-                type="checkbox"
-                name="featured"
-                checked={form.featured}
+                name="propertyType"
+                value={form.propertyType}
                 onChange={handleChange}
-                className="h-4 w-4"
-              />
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+              >
+                <option value="Available">Available</option>
 
-              <span className="text-sm font-medium text-gray-700">
-                Featured Property
-              </span>
-
-            </label>
-
+                <option value="Sold">Sold</option>
+                <option value="rented">Rented</option>
+              </select>
+            </div>
           </div>
-
 
           {/* Buttons */}
 
           <div className="mt-10 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-
             <button
               type="button"
-              onClick={() =>
-                navigate("/admin/properties")
-              }
+              onClick={() => navigate("/admin/properties")}
               className="rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
             >
               Cancel
@@ -480,17 +383,11 @@ function AdminAddProperty() {
               disabled={loading}
               className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading
-                ? "Creating..."
-                : "Create Property"}
+              {loading ? "Creating..." : "Create Property"}
             </button>
-
           </div>
-
         </form>
-
       </main>
-
     </div>
   );
 }

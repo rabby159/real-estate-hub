@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
 import { useAuth } from "../context/AuthContext";
+import logo from "../assets/logo.png";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -30,9 +30,12 @@ function Navbar() {
         {/* Logo */}
         <Link
           to="/"
-          className="text-xl font-bold text-gray-900"
         >
-          Real Estate Hub
+           <img
+              className="w-20 h-20 lg:w-40 lg:h-20 rounded-l-sm"
+              src={logo}
+              alt=""
+            />
         </Link>
 
         {/* Desktop Navigation */}
