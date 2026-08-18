@@ -16,6 +16,7 @@ import AdminProperties from "./pages/AdminProperties";
 import AdminInquiries from "./pages/AdminInquiries";
 import AdminAddProperty from "./pages/AdminAddProperty";
 import AdminEditProperty from "./pages/AdminEditProperty";
+import About from "./pages/AboutUs";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
     />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
+    <Route path="/about" element={<About />} />
     <Route
         path="/admin"
         element={<AdminDashboard />}

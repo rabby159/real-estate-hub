@@ -63,6 +63,12 @@ function Navbar() {
           <NavLink to="/properties" className={navLinkClass}>
             Properties
           </NavLink>
+          <NavLink
+  to="/about"
+  className={navLinkClass}
+>
+  About Us
+</NavLink>
 
           {/* Customer Navigation */}
           {isAuthenticated && user?.role === "customer" && (
